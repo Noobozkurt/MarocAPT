@@ -50,7 +50,7 @@ function hexToLinear(hex: string): [number, number, number] {
   return [c.r, c.g, c.b];
 }
 
-function accessor(doc: Document, type: 'VEC2' | 'VEC3' | 'VEC4' | 'SCALAR' | 'MAT4', array: Float32Array | Uint32Array | Uint16Array, buffer = doc.getRoot().listBuffers()[0]!) {
+function accessor(doc: Document, type: 'VEC2' | 'VEC3' | 'VEC4' | 'SCALAR' | 'MAT4', array: Float32Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | Uint16Array<ArrayBuffer>, buffer = doc.getRoot().listBuffers()[0]!) {
   return doc.createAccessor().setType(type).setArray(array).setBuffer(buffer);
 }
 
@@ -173,7 +173,7 @@ export async function buildGlb(spec: ModelSpec): Promise<Uint8Array> {
     });
   }
 
-  doc.getRoot().getAsset().generator = 'Aether3D procedural generator (CC0)';
+  doc.getRoot().getAsset().generator = 'Stuffin3D procedural generator (CC0)';
   const io = await getIO();
   return io.writeBinary(doc);
 }
@@ -246,7 +246,7 @@ export async function makePreviewGlb(source: Uint8Array, ratio = 0.35): Promise<
     quantize(),
     meshopt({ encoder: MeshoptEncoder, level: 'medium' }),
   );
-  doc.getRoot().getAsset().extras = { aether3d: 'preview — reduced quality, not licensed for use' };
+  doc.getRoot().getAsset().extras = { stuffin3d: 'preview — reduced quality, not licensed for use' };
   return io.writeBinary(doc);
 }
 
@@ -276,9 +276,9 @@ async function collectGeometry(source: Uint8Array): Promise<WorldTriangleSource[
       const normals: number[][] = [];
       const uvs: number[][] | null = uv ? [] : null;
       for (let i = 0; i < count; i++) {
-        const v = new THREE.Vector3(...(pos.getElement(i, []) as [number, number, number])).applyMatrix4(m);
+        const v = new THREE.Vector3(...(pos.getElement(i, []) as unknown as [number, number, number])).applyMatrix4(m);
         positions.push([v.x, v.y, v.z]);
-        const n = nor ? new THREE.Vector3(...(nor.getElement(i, []) as [number, number, number])).applyMatrix3(nm).normalize() : new THREE.Vector3(0, 1, 0);
+        const n = nor ? new THREE.Vector3(...(nor.getElement(i, []) as unknown as [number, number, number])).applyMatrix3(nm).normalize() : new THREE.Vector3(0, 1, 0);
         normals.push([n.x, n.y, n.z]);
         if (uv && uvs) uvs.push(uv.getElement(i, []) as number[]);
       }
@@ -292,7 +292,7 @@ async function collectGeometry(source: Uint8Array): Promise<WorldTriangleSource[
 
 export async function glbToObj(source: Uint8Array, name: string): Promise<string> {
   const parts = await collectGeometry(source);
-  const lines = [`# ${name} — exported by Aether3D`, `# Units: meters, Y-up`];
+  const lines = [`# ${name} — exported by Stuffin3D`, `# Units: meters, Y-up`];
   let offset = 1;
   for (const p of parts) {
     lines.push(`o ${p.name.replace(/\s+/g, '_')}`);
@@ -312,7 +312,7 @@ export async function glbToStl(source: Uint8Array): Promise<Buffer> {
   const parts = await collectGeometry(source);
   const tris = parts.reduce((a, p) => a + p.indices.length / 3, 0);
   const buf = Buffer.alloc(84 + tris * 50);
-  buf.write('Aether3D binary STL', 0, 'ascii');
+  buf.write('Stuffin3D binary STL', 0, 'ascii');
   buf.writeUInt32LE(tris, 80);
   let o = 84;
   for (const p of parts) {

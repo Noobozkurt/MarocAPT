@@ -61,11 +61,11 @@ export function verifyToken<T extends Record<string, unknown>>(token: string | u
   }
 }
 
-/** Human-friendly license key: A3D-XXXX-XXXX-XXXX-XXXX (Crockford base32, no ambiguous chars). */
+/** Human-friendly license key: S3D-XXXX-XXXX-XXXX-XXXX (Crockford base32, no ambiguous chars). */
 export function generateLicenseKey(): string {
   const alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
   const bytes = crypto.randomBytes(16);
   let out = '';
   for (let i = 0; i < 16; i++) out += alphabet[bytes[i]! % 32];
-  return `A3D-${out.slice(0, 4)}-${out.slice(4, 8)}-${out.slice(8, 12)}-${out.slice(12, 16)}`;
+  return `S3D-${out.slice(0, 4)}-${out.slice(4, 8)}-${out.slice(8, 12)}-${out.slice(12, 16)}`;
 }

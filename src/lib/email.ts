@@ -15,7 +15,7 @@ function escapeHtml(s: string) {
 }
 
 /** Minimal branded HTML wrapper; links in the text become clickable. */
-export function renderEmailHtml(text: string, storeName = process.env.NEXT_PUBLIC_STORE_NAME || 'Aether3D'): string {
+export function renderEmailHtml(text: string, storeName = process.env.NEXT_PUBLIC_STORE_NAME || 'Stuffin3D'): string {
   const body = escapeHtml(text)
     .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color:#7c5cff">$1</a>')
     .replace(/\n/g, '<br>');
@@ -36,7 +36,7 @@ export async function sendEmail(input: EmailInput): Promise<string> {
   const log = await db.emailLog.create({
     data: { to: input.to.toLowerCase(), subject: input.subject, template: input.template, text: input.text, html, meta: (input.meta ?? {}) as object },
   });
-  const from = process.env.EMAIL_FROM || 'Aether3D <noreply@aether3d.local>';
+  const from = process.env.EMAIL_FROM || 'Stuffin3D <noreply@stuffin3d.local>';
   try {
     if (process.env.RESEND_API_KEY) {
       const res = await fetch('https://api.resend.com/emails', {

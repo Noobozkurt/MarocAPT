@@ -56,7 +56,7 @@ class S3Driver implements StorageDriver {
       credentials: { accessKeyId: process.env.S3_ACCESS_KEY_ID || '', secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '' },
     });
   })();
-  private bucket = process.env.S3_BUCKET || 'aether3d-private';
+  private bucket = process.env.S3_BUCKET || 'stuffin3d-private';
   async put(key: string, data: Uint8Array, contentType = 'application/octet-stream') {
     const { PutObjectCommand } = await import('@aws-sdk/client-s3');
     await (await this.clientPromise).send(new PutObjectCommand({ Bucket: this.bucket, Key: safeKey(key), Body: data, ContentType: contentType }));

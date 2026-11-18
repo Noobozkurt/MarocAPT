@@ -1,4 +1,4 @@
-// Aether3D data model.
+// Stuffin3D data model.
 // Money is always stored as integer minor units (cents/öre) in the order's currency.
 
 generator client {

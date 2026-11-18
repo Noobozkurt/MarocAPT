@@ -22,7 +22,7 @@ export interface SessionUser {
   impersonatorId?: string;
 }
 
-export const IMPERSONATE_COOKIE = 'a3d_impersonate';
+export const IMPERSONATE_COOKIE = 's3d_impersonate';
 
 /**
  * The authenticated user for this request, validated against the database:

@@ -12,7 +12,7 @@ const schema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().optional().default(''),
   STRIPE_AUTOMATIC_TAX: z.string().optional().default('false'),
   TEST_PAYMENT_WEBHOOK_SECRET: z.string().default('whsec_test_local_simulator_secret'),
-  SELLER_NAME: z.string().default('Aether3D Studio AB'),
+  SELLER_NAME: z.string().default('Stuffin3D Studio AB'),
   SELLER_ADDRESS: z.string().default('Example Street 1, 111 22 Stockholm, Sweden'),
   SELLER_COUNTRY: z.string().length(2).default('SE'),
   SELLER_VAT_ID: z.string().default('SE556677889901'),
@@ -23,13 +23,13 @@ const schema = z.object({
   S3_REGION: z.string().default('us-east-1'),
   S3_ACCESS_KEY_ID: z.string().optional().default(''),
   S3_SECRET_ACCESS_KEY: z.string().optional().default(''),
-  S3_BUCKET: z.string().default('aether3d-private'),
+  S3_BUCKET: z.string().default('stuffin3d-private'),
   S3_FORCE_PATH_STYLE: z.string().default('true'),
   DOWNLOAD_URL_TTL_SECONDS: z.coerce.number().int().min(30).max(3600).default(300),
-  EMAIL_FROM: z.string().default('Aether3D <noreply@aether3d.local>'),
+  EMAIL_FROM: z.string().default('Stuffin3D <noreply@stuffin3d.local>'),
   SMTP_URL: z.string().optional().default(''),
   RESEND_API_KEY: z.string().optional().default(''),
-  SUPPORT_REPLY_DOMAIN: z.string().default('reply.aether3d.local'),
+  SUPPORT_REPLY_DOMAIN: z.string().default('reply.stuffin3d.local'),
   INBOUND_EMAIL_SECRET: z.string().default('change-me-inbound'),
   CHAT_OFFLINE_EMAIL_MINUTES: z.coerce.number().min(0).default(5),
   CHAT_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(1).default(20),
@@ -64,4 +64,4 @@ export function paymentProviderName(): 'stripe' | 'test' {
   return e.STRIPE_SECRET_KEY ? 'stripe' : 'test';
 }
 
-export const STORE_NAME = process.env.NEXT_PUBLIC_STORE_NAME || 'Aether3D';
+export const STORE_NAME = process.env.NEXT_PUBLIC_STORE_NAME || 'Stuffin3D';
